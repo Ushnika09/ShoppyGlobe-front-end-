@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_BASE_URL from "../../config";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
