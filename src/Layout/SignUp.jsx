@@ -1,7 +1,9 @@
 import { useState } from "react";
-import API_BASE_URL from "../../config";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,7 +22,7 @@ export default function Signup() {
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      const res = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -29,7 +31,7 @@ export default function Signup() {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage("🎉 Signup successful! Please login now.");
+        setMessage("🎉 Signup successful! Click here to login.");
         setFormData({ name: "", email: "", password: "" });
       } else {
         setMessage(data.message || "Signup failed.");
@@ -41,13 +43,19 @@ export default function Signup() {
     setLoading(false);
   };
 
+  const handleLoginRedirect = () => {
+    navigate("/signin");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form
         onSubmit={handleSignup}
         className="bg-white p-6 rounded-2xl shadow-lg w-80 space-y-4"
       >
-        <h2 className="text-2xl font-bold text-center text-gray-700">Create Account</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-700">
+          Create Account
+        </h2>
 
         <input
           type="text"
@@ -87,8 +95,21 @@ export default function Signup() {
           {loading ? "Signing up..." : "Signup"}
         </button>
 
-        {message && (
-          <p className="text-center text-sm text-gray-600 mt-2">{message}</p>
+        {message && message.includes("Signup successful") && (
+          <p className="text-center text-sm mt-2 text-gray-600">
+            🎉 Signup successful! Click here to{" "}
+            <span
+              onClick={handleLoginRedirect}
+              className="text-blue-500 font-bold cursor-pointer hover:underline"
+            >
+              login
+            </span>
+            .
+          </p>
+        )}
+
+        {message && !message.includes("Signup successful") && (
+          <p className="text-center text-sm mt-2 text-gray-600">{message}</p>
         )}
       </form>
     </div>
