@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { clearCart } from "../redux/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import API_BASE_URL from "../../config";
 
 const paymentOptions = [
   "Credit/Debit Card",
@@ -23,7 +24,7 @@ export default function CheckoutPage() {
     try {
       // Clear backend cart
       if (token) {
-        await axios.delete("http://localhost:5000/cart", {
+        await axios.delete(`${API_BASE_URL}/api/cart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }

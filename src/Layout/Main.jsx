@@ -48,7 +48,7 @@ function Main() {
     if (!token) return alert("Login first to add to cart");
     try {
       const res = await axios.post(
-        "http://localhost:5000/cart",
+        `${API_BASE_URL}/api/cart`,
         { productId: pdt._id, quantity: 1 },
         { headers: { Authorization: `Bearer ${token}` } }
       );
