@@ -12,7 +12,7 @@ function Cartitem() {
   const token = useSelector((state) => state.auth.token);
   const [showCheckout, setShowCheckout] = useState(false);
 
-  const API_BASE = `${API_BASE_URL}/cart`;
+  const API_BASE = `${API_BASE_URL}/api/cart`;
   
 
   // Fetch cart on mount
